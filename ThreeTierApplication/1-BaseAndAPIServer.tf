@@ -6,6 +6,10 @@ provider "azurerm" {
   version = "~>1.32.0"
 }
 
+locals {
+  #Local variables - add your subnet name
+}
+
 #Data Source - Subnet
 
 data "azurerm_subnet" "DevSubnet" {

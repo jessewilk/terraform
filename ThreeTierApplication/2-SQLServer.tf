@@ -3,7 +3,7 @@
 
 module "deploy_nic_sql" {
     source 							= "./modules/New-NetworkInterface"
-    resource_group_name 			= module.deployRGCompute.name
+    resource_group_name = module.deployRGCompute.name
   	location 						= module.deployRGCompute.location
 	  nic_name 						= "${var.resource_prefix}-nic-sqlserver"
     ip_name             = "ip2"
