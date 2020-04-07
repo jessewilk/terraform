@@ -13,6 +13,7 @@ variable "tenant_id"{
 }
 variable "location"{
 	description = "Enter location for resource group"
+	default = "EAST US"
 }
 
 

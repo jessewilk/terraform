@@ -1,22 +1,3 @@
-provider "azurerm" {
-	subscription_id = var.subscription_id
-	client_id = var.client_id
-	client_secret = var.client_secret
-	tenant_id = var.tenant_id
-  version = "~>1.32.0"
-}
-
-locals {
-  #Local variables - add your subnet name
-}
-
-#Data Source - Subnet
-
-data "azurerm_subnet" "DevSubnet" {
-  name                 = "Development-Subnet"
-  virtual_network_name = "AvidX-EastUS-DevQa-Resources-VNET"
-  resource_group_name  = "AvidX-DevQA-DevelopmentResources-RG"
-}
 
 
 
