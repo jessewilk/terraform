@@ -78,7 +78,7 @@ resource "azurerm_virtual_machine" "webServers" {
       web  = [module.deploy_nic_web.id,"${var.resource_prefix}-web","Standard_D2_v3"]
       web1 = [module.deploy_nic_web1.id,"${var.resource_prefix}-web1","Standard_D4_v3"]
   }
-  name                  = each.key
+  name                  = each.value[1]
   location              = module.deployRGCompute.location
   resource_group_name   = module.deployRGCompute.name
   network_interface_ids = [each.value[0]]
