@@ -130,8 +130,6 @@ resource "azurerm_virtual_machine" "webServers" {
 }
 
 
-
-
 #App Virtual Machine
 
 resource "azurerm_virtual_machine" "appServer" {
