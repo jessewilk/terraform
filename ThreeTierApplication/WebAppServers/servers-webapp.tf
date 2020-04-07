@@ -1,26 +1,60 @@
+provider "azurerm" {
+  subscription_id = var.subscription_id
+  client_id       = var.client_id
+  client_secret   = var.client_secret
+  tenant_id       = var.tenant_id
+  version         = "~>1.32.0"
+}
 
-
+locals {
+  #Local variables 
+}
 
 
 #ResourceGroup
 module "deployRGCompute" {
-	source = "./modules/New-ResourceGroup"
-	resource_group_name = "${var.resource_prefix}-rg"
-	location = var.location
-  resource_tags =  var.resource_tags
+  source              = "../modules/New-ResourceGroup"
+  resource_group_name = "${var.resource_prefix}-rg"
+  location            = var.location
+  resource_tags       = var.resource_tags
 }
 
-#NIC Card
+data "azurerm_virtual_network" "coreVnet" {
+  name                 = "core-vnet"
+  resource_group_name  = "core-networking"
+}
 
-module "deploy_nic_api" {
-    source 							= "./modules/New-NetworkInterface"
-    resource_group_name 			= module.deployRGCompute.name
-  	location 						= module.deployRGCompute.location
-	  nic_name 						= "${var.resource_prefix}-nic-api"
-    ip_name             = "ip1"
-    subnet_id 				  = data.azurerm_subnet.DevSubnet.id
-    private_ip_address_allocation 	= var.private_ip_address_allocation
-    resource_tags					= var.resource_tags
+data "azurerm_subnet" "webSubnet" {
+  name                 = "subnetWeb"
+  virtual_network_name = "core-vnet"
+  resource_group_name  = "core-networking"
+}
+data "azurerm_subnet" "appSubnet" {
+  name                 = "subnetApp"
+  virtual_network_name = "core-vnet"
+  resource_group_name  = "core-networking"
+}
+data "azurerm_subnet" "sqlSubnet" {
+  name                 = "subnetSql"
+  virtual_network_name = "core-vnet"
+  resource_group_name  = "core-networking"
+}
+
+
+
+
+
+#Build Web Server Nic Card 
+
+module "deploy_nic_web" {
+  source                        = "../modules/New-NetworkInterface"
+  resource_group_name           = module.deployRGCompute.name
+  location                      = module.deployRGCompute.location
+  nic_name                      = "${var.resource_prefix}-nic-web"
+  ip_name                       = "${var.resource_prefix}-ip1-web"
+  subnet_id                     = data.azurerm_subnet.DevSubnet.id
+  private_ip_address_allocation = var.private_ip_address_allocation
+  resource_tags                 = var.resource_tags
 }
 
 
@@ -57,10 +91,10 @@ resource "azurerm_virtual_machine" "APIServer" {
 
   # Optional data disks
   storage_data_disk {
-    name          = "${var.resource_prefix}-API-datadisk"
-    create_option = "Empty"
-    disk_size_gb  = "1023"
-    lun           = 0
+    name              = "${var.resource_prefix}-API-datadisk"
+    create_option     = "Empty"
+    disk_size_gb      = "1023"
+    lun               = 0
     managed_disk_type = "Standard_LRS"
   }
 
@@ -69,7 +103,7 @@ resource "azurerm_virtual_machine" "APIServer" {
     admin_username = "avid-admin"
     admin_password = "admin123-AAA"
   }
-  os_profile_windows_config{
+  os_profile_windows_config {
     provision_vm_agent        = true
     enable_automatic_upgrades = true
     timezone                  = "Eastern Standard Time"
