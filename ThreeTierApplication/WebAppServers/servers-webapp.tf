@@ -11,6 +11,21 @@ locals {
 }
 
 
+
+data "azurerm_virtual_network" "coreVnet" {
+  name                = "core-vnet"
+  resource_group_name = "core-networking"
+}
+
+data "azurerm_subnet" "subnetIds" {
+  for_each             = toset(data.azurerm_virtual_network.coreVnet.subnets)
+  name                 = each.key
+  virtual_network_name = data.azurerm_virtual_network.coreVnet.name
+  resource_group_name  = data.azurerm_virtual_network.coreVnet.resource_group_name
+}
+
+
+
 #ResourceGroup
 module "deployRGCompute" {
   source              = "../modules/New-ResourceGroup"
@@ -18,32 +33,6 @@ module "deployRGCompute" {
   location            = var.location
   resource_tags       = var.resource_tags
 }
-
-data "azurerm_virtual_network" "coreVnet" {
-  name                 = "core-vnet"
-  resource_group_name  = "core-networking"
-}
-
-data "azurerm_subnet" "webSubnet" {
-  name                 = "subnetWeb"
-  virtual_network_name = "core-vnet"
-  resource_group_name  = "core-networking"
-}
-data "azurerm_subnet" "appSubnet" {
-  name                 = "subnetApp"
-  virtual_network_name = "core-vnet"
-  resource_group_name  = "core-networking"
-}
-data "azurerm_subnet" "sqlSubnet" {
-  name                 = "subnetSql"
-  virtual_network_name = "core-vnet"
-  resource_group_name  = "core-networking"
-}
-
-
-
-
-
 #Build Web Server Nic Card 
 
 module "deploy_nic_web" {
@@ -52,20 +41,48 @@ module "deploy_nic_web" {
   location                      = module.deployRGCompute.location
   nic_name                      = "${var.resource_prefix}-nic-web"
   ip_name                       = "${var.resource_prefix}-ip1-web"
-  subnet_id                     = data.azurerm_subnet.DevSubnet.id
+  subnet_id                     = data.azurerm_subnet.subnetIds["subnetWeb"].id
+  private_ip_address_allocation = var.private_ip_address_allocation
+  resource_tags                 = var.resource_tags
+}
+
+module "deploy_nic_web1" {
+  source                        = "../modules/New-NetworkInterface"
+  resource_group_name           = module.deployRGCompute.name
+  location                      = module.deployRGCompute.location
+  nic_name                      = "${var.resource_prefix}-nic-web1"
+  ip_name                       = "${var.resource_prefix}-ip1-web1"
+  subnet_id                     = data.azurerm_subnet.subnetIds["subnetWeb"].id
   private_ip_address_allocation = var.private_ip_address_allocation
   resource_tags                 = var.resource_tags
 }
 
 
-#WindowsVM - API Server
+module "deploy_nic_app" {
+  source                        = "../modules/New-NetworkInterface"
+  resource_group_name           = module.deployRGCompute.name
+  location                      = module.deployRGCompute.location
+  nic_name                      = "${var.resource_prefix}-nic-app"
+  ip_name                       = "${var.resource_prefix}-ip1-app"
+  subnet_id                     = data.azurerm_subnet.subnetIds["subnetApp"].id
+  private_ip_address_allocation = var.private_ip_address_allocation
+  resource_tags                 = var.resource_tags
+}
 
-resource "azurerm_virtual_machine" "APIServer" {
-  name                  = "${var.resource_prefix}-API"
+
+
+#Web Virtual Machine
+
+resource "azurerm_virtual_machine" "webServers" {
+  for_each = {
+      web  = [module.deploy_nic_web.id,"${var.resource_prefix}-web","Standard_D2_v3"]
+      web1 = [module.deploy_nic_web1.id,"${var.resource_prefix}-web1","Standard_D4_v3"]
+  }
+  name                  = each.key
   location              = module.deployRGCompute.location
   resource_group_name   = module.deployRGCompute.name
-  network_interface_ids = ["module.deploy_nic_api.id"]
-  vm_size               = "Standard_F2"
+  network_interface_ids = [each.value[0]]
+  vm_size               = each.value[2]
 
   # This means the OS Disk will be deleted when Terraform destroys the Virtual Machine
   # NOTE: This may not be optimal in alls cases.
@@ -83,7 +100,7 @@ resource "azurerm_virtual_machine" "APIServer" {
   }
 
   storage_os_disk {
-    name              = "${var.resource_prefix}-API-osdisk"
+    name              = "${each.value[1]}-osdisk"
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"
@@ -91,7 +108,7 @@ resource "azurerm_virtual_machine" "APIServer" {
 
   # Optional data disks
   storage_data_disk {
-    name              = "${var.resource_prefix}-API-datadisk"
+    name              = "${each.value[1]}-datadisk"
     create_option     = "Empty"
     disk_size_gb      = "1023"
     lun               = 0
@@ -99,8 +116,8 @@ resource "azurerm_virtual_machine" "APIServer" {
   }
 
   os_profile {
-    computer_name  = "${var.resource_prefix}-API"
-    admin_username = "avid-admin"
+    computer_name  = each.value[1]
+    admin_username = "jwilk-admin"
     admin_password = "admin123-AAA"
   }
   os_profile_windows_config {
@@ -111,6 +128,88 @@ resource "azurerm_virtual_machine" "APIServer" {
 
 
 }
+
+
+
+
+#App Virtual Machine
+
+resource "azurerm_virtual_machine" "appServer" {
+  name                  = "${var.resource_prefix}-app"
+  location              = module.deployRGCompute.location
+  resource_group_name   = module.deployRGCompute.name
+  network_interface_ids = [module.deploy_nic_app.id]
+  vm_size               = "Standard_D2_v3"
+
+  # This means the OS Disk will be deleted when Terraform destroys the Virtual Machine
+  # NOTE: This may not be optimal in alls cases.
+  delete_os_disk_on_termination = true
+
+  # This means the Data Disk Disk will be deleted when Terraform destroys the Virtual Machine
+  # NOTE: This may not be optimal in all cases.
+  delete_data_disks_on_termination = true
+
+  storage_image_reference {
+    publisher = "MicrosoftWindowsServer"
+    offer     = "WindowsServer"
+    sku       = "2016-Datacenter"
+    version   = "latest"
+  }
+
+  storage_os_disk {
+    name              = "${var.resource_prefix}-app-osdisk"
+    caching           = "ReadWrite"
+    create_option     = "FromImage"
+    managed_disk_type = "Standard_LRS"
+  }
+
+  # Optional data disks
+  storage_data_disk {
+    name              = "${var.resource_prefix}-app-datadisk"
+    create_option     = "Empty"
+    disk_size_gb      = "1023"
+    lun               = 0
+    managed_disk_type = "Standard_LRS"
+  }
+
+  os_profile {
+    computer_name  = "${var.resource_prefix}-app"
+    admin_username = "jwilk-admin"
+    admin_password = "admin123-AAA"
+  }
+  os_profile_windows_config {
+    provision_vm_agent        = true
+    enable_automatic_upgrades = true
+    timezone                  = "Eastern Standard Time"
+  }
+
+
+}
+
+output "coreVnet" {
+  value = data.azurerm_virtual_network.coreVnet.id
+}
+
+output "subnetIds" {
+  value = [for value in data.azurerm_subnet.subnetIds : value.id]
+}
+
+output "nic_web" {
+  value = module.deploy_nic_web.id
+}
+
+output "webServer" {
+  value = azurerm_virtual_machine.webServers
+}
+
+output "nic_app" {
+  value = module.deploy_nic_app.id
+}
+
+output "appServer" {
+  value = azurerm_virtual_machine.appServer
+}
+
 
 
 
