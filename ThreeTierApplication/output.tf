@@ -12,7 +12,6 @@ output "deployAPIServerNicId" {
   value = module.deploy_nic_api.id
 }
 
-
 output "deploySQLServer" {
   value = azurerm_virtual_machine.SQLServer.id
 }
