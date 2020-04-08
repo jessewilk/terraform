@@ -12,7 +12,7 @@ locals {
     server = {
       serverName = "${var.resource_prefix}-sql"
       nicId      = module.deploy_nic_sql.id
-      sku        = "Standard_D4_v3"
+      sku        = "Standard_D2_v2"
     }
     server1 = {
       serverName = "${var.resource_prefix}-sql1"
@@ -22,7 +22,7 @@ locals {
     server2 = {
       serverName = "${var.resource_prefix}-sql2"
       nicId      = module.deploy_nic_sql2.id
-      sku        = "Standard_D2_v3"
+      sku        = "Standard_DS2_v2"
     }
   }
 }
@@ -42,7 +42,7 @@ data "azurerm_subnet" "subnetIds" {
 #ResourceGroup
 module "deployRGCompute" {
   source              = "../modules/New-ResourceGroup"
-  resource_group_name = "${var.resource_prefix}-rg"
+  resource_group_name = "${var.resource_prefix}-sql-rg"
   location            = var.location
   resource_tags       = var.resource_tags
 }

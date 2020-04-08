@@ -8,6 +8,33 @@ provider "azurerm" {
 
 locals {
   #Local variables 
+  servers = {
+    web = {
+      serverName = "${var.resource_prefix}-web"
+      nicId      = module.deploy_nic_web.id
+      sku        = "Standard_DS3_v2"
+    }
+    web1 = {
+      serverName = "${var.resource_prefix}-web1"
+      nicId      = module.deploy_nic_web1.id
+      sku        = "Standard_DS3_v2"
+    }
+    web2 = {
+      serverName = "${var.resource_prefix}-web2"
+      nicId      = module.deploy_nic_web2.id
+      sku        = "Standard_DS3_v2"
+    }
+    app = {
+      serverName = "${var.resource_prefix}-app"
+      nicId      = module.deploy_nic_app.id
+      sku        = "Standard_D4_v3"
+    }
+    app1 = {
+      serverName = "${var.resource_prefix}-app1"
+      nicId      = module.deploy_nic_app1.id
+      sku        = "Standard_D4_v3"
+    }
+  }
 }
 
 
@@ -29,7 +56,7 @@ data "azurerm_subnet" "subnetIds" {
 #ResourceGroup
 module "deployRGCompute" {
   source              = "../modules/New-ResourceGroup"
-  resource_group_name = "${var.resource_prefix}-rg"
+  resource_group_name = "${var.resource_prefix}-webapp-rg"
   location            = var.location
   resource_tags       = var.resource_tags
 }
@@ -57,6 +84,17 @@ module "deploy_nic_web1" {
   resource_tags                 = var.resource_tags
 }
 
+module "deploy_nic_web2" {
+  source                        = "../modules/New-NetworkInterface"
+  resource_group_name           = module.deployRGCompute.name
+  location                      = module.deployRGCompute.location
+  nic_name                      = "${var.resource_prefix}-nic-web2"
+  ip_name                       = "${var.resource_prefix}-ip1-web2"
+  subnet_id                     = data.azurerm_subnet.subnetIds["subnetWeb"].id
+  private_ip_address_allocation = var.private_ip_address_allocation
+  resource_tags                 = var.resource_tags
+}
+
 
 module "deploy_nic_app" {
   source                        = "../modules/New-NetworkInterface"
@@ -69,21 +107,29 @@ module "deploy_nic_app" {
   resource_tags                 = var.resource_tags
 }
 
+module "deploy_nic_app1" {
+  source                        = "../modules/New-NetworkInterface"
+  resource_group_name           = module.deployRGCompute.name
+  location                      = module.deployRGCompute.location
+  nic_name                      = "${var.resource_prefix}-nic-app1"
+  ip_name                       = "${var.resource_prefix}-ip1-app1"
+  subnet_id                     = data.azurerm_subnet.subnetIds["subnetApp"].id
+  private_ip_address_allocation = var.private_ip_address_allocation
+  resource_tags                 = var.resource_tags
+}
 
 
-#Web Virtual Machine
+
+
+#Virtual Machine
 
 resource "azurerm_virtual_machine" "servers" {
-  for_each = {
-      web  = [module.deploy_nic_web.id,"${var.resource_prefix}-web","Standard_D2_v3"]
-      web1 = [module.deploy_nic_web1.id,"${var.resource_prefix}-web1","Standard_D4_v3"]
-      app  = [module.deploy_nic_app.id,"${var.resource_prefix}-app","Standard_D4_v3"]
-  }
-  name                  = each.value[1]
+  for_each = local.servers
+  name                  = each.value.serverName
   location              = module.deployRGCompute.location
   resource_group_name   = module.deployRGCompute.name
-  network_interface_ids = [each.value[0]]
-  vm_size               = each.value[2]
+  network_interface_ids = [each.value.nicId]
+  vm_size               = each.value.sku
 
   # This means the OS Disk will be deleted when Terraform destroys the Virtual Machine
   # NOTE: This may not be optimal in alls cases.
@@ -101,7 +147,7 @@ resource "azurerm_virtual_machine" "servers" {
   }
 
   storage_os_disk {
-    name              = "${each.value[1]}-osdisk"
+    name              = "${each.value.serverName}-osdisk"
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"
@@ -109,7 +155,7 @@ resource "azurerm_virtual_machine" "servers" {
 
   # Optional data disks
   storage_data_disk {
-    name              = "${each.value[1]}-datadisk"
+    name              = "${each.value.serverName}-datadisk"
     create_option     = "Empty"
     disk_size_gb      = "1023"
     lun               = 0
@@ -117,7 +163,7 @@ resource "azurerm_virtual_machine" "servers" {
   }
 
   os_profile {
-    computer_name  = each.value[1]
+    computer_name  = each.value.serverName
     admin_username = "jwilk-admin"
     admin_password = "admin123-AAA"
   }
@@ -139,17 +185,8 @@ output "subnetIds" {
   value = [for value in data.azurerm_subnet.subnetIds : value.id]
 }
 
-output "nic_web" {
-  value = module.deploy_nic_web.id
-}
-output "nic_web" {
-  value = module.deploy_nic_web1.id
-}
-output "nic_app" {
-  value = module.deploy_nic_app.id
-}
 output "servers" {
-  value = azurerm_virtual_machine.servers
+  value = [for servers in azurerm_virtual_machine.servers : servers.id]
 }
 
 
