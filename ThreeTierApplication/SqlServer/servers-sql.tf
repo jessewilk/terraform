@@ -12,16 +12,11 @@ locals {
     server = {
       serverName = "${var.resource_prefix}-sql"
       nicId      = module.deploy_nic_sql.id
-      sku        = "Standard_D2_v2"
+      sku        = "Standard_DS2_v2"
     }
     server1 = {
       serverName = "${var.resource_prefix}-sql1"
       nicId      = module.deploy_nic_sql1.id
-      sku        = "Standard_D4_v3"
-    }
-    server2 = {
-      serverName = "${var.resource_prefix}-sql2"
-      nicId      = module.deploy_nic_sql2.id
       sku        = "Standard_DS2_v2"
     }
   }
@@ -72,18 +67,6 @@ module "deploy_nic_sql1" {
   private_ip_address_allocation = var.private_ip_address_allocation
   resource_tags                 = var.resource_tags
 }
-
-module "deploy_nic_sql2" {
-  source                        = "../modules/New-NetworkInterface"
-  resource_group_name           = module.deployRGCompute.name
-  location                      = module.deployRGCompute.location
-  nic_name                      = "${var.resource_prefix}-nic-sql2"
-  ip_name                       = "${var.resource_prefix}-ip1-sql2"
-  subnet_id                     = data.azurerm_subnet.subnetIds["subnetSql"].id
-  private_ip_address_allocation = var.private_ip_address_allocation
-  resource_tags                 = var.resource_tags
-}
-
 
 #SQL Virtual Machines
 

@@ -12,27 +12,27 @@ locals {
     web = {
       serverName = "${var.resource_prefix}-web"
       nicId      = module.deploy_nic_web.id
-      sku        = "Standard_DS3_v2"
+      sku        = "Standard_DS2_v2"
     }
     web1 = {
       serverName = "${var.resource_prefix}-web1"
       nicId      = module.deploy_nic_web1.id
-      sku        = "Standard_DS3_v2"
+      sku        = "Standard_DS2_v2"
     }
     web2 = {
       serverName = "${var.resource_prefix}-web2"
       nicId      = module.deploy_nic_web2.id
-      sku        = "Standard_DS3_v2"
+      sku        = "Standard_DS2_v2"
     }
     app = {
       serverName = "${var.resource_prefix}-app"
       nicId      = module.deploy_nic_app.id
-      sku        = "Standard_D4_v3"
+      sku        = "Standard_DS2_v2"
     }
     app1 = {
       serverName = "${var.resource_prefix}-app1"
       nicId      = module.deploy_nic_app1.id
-      sku        = "Standard_D4_v3"
+      sku        = "Standard_DS2_v2"
     }
   }
 }
