@@ -34,7 +34,7 @@ resource "azurerm_virtual_network" "coreVnet" {
     name           = "subnetWeb"
     address_prefix = "10.0.2.0/24"
   }
-    subnet {
+  subnet {
     name           = "subnetSql"
     address_prefix = "10.0.3.0/24"
   }
