@@ -28,13 +28,6 @@ variable "location" {
 
 variable "appVars" {
   type = map
-  default = {
-  jwilkRg = "East US 2"
-  jwilkRg1 = "East US 2"
-  jwilkRg2 = "West US"
-  jwilkRg3 = "East US 2"
-  jwilkRg4 = "East US 2"
-  }
 }
 
 variable "rgs" {
