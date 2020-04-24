@@ -1,10 +1,20 @@
 terraform {
-  backend "azurerm" {
+ /* backend "azurerm" {
     resource_group_name  = "core-networking"
     storage_account_name = "jwilkincsa"
     container_name       = "terraform-state"
     key                  = "ThreeTier-appService.tfstate"
   }
+  */
+  backend "remote" {
+    hostname = "app.terraform.io"
+    organization = "cardinalsolutions"
+
+    workspaces {
+      name = "jwilk-terraform"
+    }
+  }
+
 }
 
 # Azure Environment Variables
