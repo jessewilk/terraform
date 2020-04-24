@@ -1,0 +1,111 @@
+{
+  "version": 4,
+  "terraform_version": "0.12.24",
+  "serial": 14,
+  "lineage": "27cd948b-6e66-8924-5b74-e9e62bc9713d",
+  "outputs": {
+    "coreVnet": {
+      "value": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/core-networking/providers/Microsoft.Network/virtualNetworks/core-vnet",
+      "type": "string"
+    },
+    "deployRgNetworking": {
+      "value": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/core-networking",
+      "type": "string"
+    },
+    "subnetApp": {
+      "value": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/core-networking/providers/Microsoft.Network/virtualNetworks/core-vnet/subnets/subnetApp",
+      "type": "string"
+    },
+    "subnetSql": {
+      "value": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/core-networking/providers/Microsoft.Network/virtualNetworks/core-vnet/subnets/subnetSql",
+      "type": "string"
+    },
+    "subnetWeb": {
+      "value": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/core-networking/providers/Microsoft.Network/virtualNetworks/core-vnet/subnets/subnetWeb",
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "module": "module.deployRgNetworking",
+      "mode": "managed",
+      "type": "azurerm_resource_group",
+      "name": "rg",
+      "provider": "provider.azurerm",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/core-networking",
+            "location": "eastus",
+            "name": "core-networking",
+            "tags": {
+              "BudgetCategory": "DevResources",
+              "Department": "ENGINEERING",
+              "Environment": "DEVOPS",
+              "Owner": "DEVOPS",
+              "Program": "DEVOPS",
+              "TeamName": "DEVOPS"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "azurerm_virtual_network",
+      "name": "coreVnet",
+      "provider": "provider.azurerm",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "address_space": [
+              "10.0.0.0/16"
+            ],
+            "ddos_protection_plan": [],
+            "dns_servers": [
+              "10.0.0.4",
+              "10.0.0.5"
+            ],
+            "id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/core-networking/providers/Microsoft.Network/virtualNetworks/core-vnet",
+            "location": "eastus",
+            "name": "core-vnet",
+            "resource_group_name": "core-networking",
+            "subnet": [
+              {
+                "address_prefix": "10.0.1.0/24",
+                "id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/core-networking/providers/Microsoft.Network/virtualNetworks/core-vnet/subnets/subnetApp",
+                "name": "subnetApp",
+                "security_group": ""
+              },
+              {
+                "address_prefix": "10.0.2.0/24",
+                "id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/core-networking/providers/Microsoft.Network/virtualNetworks/core-vnet/subnets/subnetWeb",
+                "name": "subnetWeb",
+                "security_group": ""
+              },
+              {
+                "address_prefix": "10.0.3.0/24",
+                "id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/core-networking/providers/Microsoft.Network/virtualNetworks/core-vnet/subnets/subnetSql",
+                "name": "subnetSql",
+                "security_group": ""
+              }
+            ],
+            "tags": {
+              "BudgetCategory": "DevResources",
+              "Department": "ENGINEERING",
+              "Environment": "DEVOPS",
+              "Owner": "DEVOPS",
+              "Program": "DEVOPS",
+              "TeamName": "DEVOPS"
+            }
+          },
+          "dependencies": [
+            "module.deployRgNetworking.azurerm_resource_group.rg"
+          ]
+        }
+      ]
+    }
+  ]
+}

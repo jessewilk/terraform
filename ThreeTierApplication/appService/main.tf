@@ -10,7 +10,7 @@ terraform {
   }
   */
   backend "remote" {
-    hostname = "app.terraform.io"
+    hostname     = "app.terraform.io"
     organization = "cardinalsolutions"
 
     workspaces {
@@ -57,23 +57,23 @@ provider "azurerm" {
 }
 
 locals {
-    appOwner = "jwilk"
-    environment = "dev"
-    namingPrefix = ""
-   settings = [
-        {
-            name                          = "intIp1"
-            subnet_id                     = azurerm_subnet.subnet["sandbox-subnet"].id
-            private_ip_address_allocation = "Dynamic"
-            primary                       = true
-        },
-        {
-            name                          = "intIp2"
-            subnet_id                     = azurerm_subnet.subnet["sandbox-subnet"].id
-            private_ip_address_allocation = "Dynamic"
-            primary                       = false
-        }]
-    }
+  appOwner     = "jwilk"
+  environment  = "dev"
+  namingPrefix = ""
+  settings = [
+    {
+      name                          = "intIp1"
+      subnet_id                     = azurerm_subnet.subnet["sandbox-subnet"].id
+      private_ip_address_allocation = "Dynamic"
+      primary                       = true
+    },
+    {
+      name                          = "intIp2"
+      subnet_id                     = azurerm_subnet.subnet["sandbox-subnet"].id
+      private_ip_address_allocation = "Dynamic"
+      primary                       = false
+  }]
+}
 
 
 resource "azurerm_resource_group" "rg" {
@@ -150,17 +150,17 @@ resource "azurerm_network_interface" "nics" {
 
 
 resource "azurerm_network_interface" "dynamicNic" {
-    name                = "testNic"
-    location            = "East US 2"
-    resource_group_name = "jwilkRg4"
+  name                = "testNic"
+  location            = "East US 2"
+  resource_group_name = "jwilkRg4"
 
   dynamic "ip_configuration" {
     for_each = local.settings
     content {
-            name                          = ip_configuration.value["name"]
-            subnet_id                     =  ip_configuration.value["subnet_id"]
-            private_ip_address_allocation = ip_configuration.value["private_ip_address_allocation"]
-            primary                       = ip_configuration.value["primary"]
+      name                          = ip_configuration.value["name"]
+      subnet_id                     = ip_configuration.value["subnet_id"]
+      private_ip_address_allocation = ip_configuration.value["private_ip_address_allocation"]
+      primary                       = ip_configuration.value["primary"]
     }
   }
 
@@ -170,20 +170,20 @@ resource "azurerm_network_interface" "dynamicNic" {
 
 
 output "resourceGroups" {
-    value = upper(join(",",azurerm_resource_group.rg[*].name))
-    description = "The list of resource groups"
+  value       = upper(join(",", azurerm_resource_group.rg[*].name))
+  description = "The list of resource groups"
 }
 
 output "resourceGroups1" {
-    value = {for rgs in azurerm_resource_group.rg1 : rgs.name => upper(rgs.id)} #azurerm_resource_group.rg1
-    description = "The list of resource groups"
+  value       = { for rgs in azurerm_resource_group.rg1 : rgs.name => upper(rgs.id) } #azurerm_resource_group.rg1
+  description = "The list of resource groups"
 }
 
 output "nicCards" {
-    value = upper(join(",",[for nic in azurerm_network_interface.nics : nic.name]))
+  value = upper(join(",", [for nic in azurerm_network_interface.nics : nic.name]))
 }
 
 output "dynamicNic" {
-    value = azurerm_network_interface.dynamicNic.name
+  value = azurerm_network_interface.dynamicNic.name
 }
 
