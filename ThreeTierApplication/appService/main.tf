@@ -1,5 +1,8 @@
 terraform {
- /* backend "azurerm" {
+  /*backend "local" {
+    path = "./ThreeTier-appService.json"
+  }
+  backend "azurerm" {
     resource_group_name  = "core-networking"
     storage_account_name = "jwilkincsa"
     container_name       = "terraform-state"

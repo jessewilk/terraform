@@ -1,0 +1,652 @@
+{
+  "version": 4,
+  "terraform_version": "0.12.24",
+  "serial": 20,
+  "lineage": "475c35a3-4202-144e-135c-48800be6c218",
+  "outputs": {
+    "dynamicNic": {
+      "value": "testNic",
+      "type": "string"
+    },
+    "nicCards": {
+      "value": "NIC1,NIC2",
+      "type": "string"
+    },
+    "resourceGroups": {
+      "value": "JWILKTERRAFORM_1,JWILKTERRAFORM_2,JWILKTERRAFORM_3,JWILKTERRAFORM_4",
+      "type": "string"
+    },
+    "resourceGroups1": {
+      "value": {
+        "jwilkRg": "/SUBSCRIPTIONS/BA101D23-80F8-4C69-90F9-8AEBA246C6CD/RESOURCEGROUPS/JWILKRG",
+        "jwilkRg1": "/SUBSCRIPTIONS/BA101D23-80F8-4C69-90F9-8AEBA246C6CD/RESOURCEGROUPS/JWILKRG1",
+        "jwilkRg2": "/SUBSCRIPTIONS/BA101D23-80F8-4C69-90F9-8AEBA246C6CD/RESOURCEGROUPS/JWILKRG2",
+        "jwilkRg3": "/SUBSCRIPTIONS/BA101D23-80F8-4C69-90F9-8AEBA246C6CD/RESOURCEGROUPS/JWILKRG3",
+        "jwilkRg4": "/SUBSCRIPTIONS/BA101D23-80F8-4C69-90F9-8AEBA246C6CD/RESOURCEGROUPS/JWILKRG4"
+      },
+      "type": [
+        "object",
+        {
+          "jwilkRg": "string",
+          "jwilkRg1": "string",
+          "jwilkRg2": "string",
+          "jwilkRg3": "string",
+          "jwilkRg4": "string"
+        }
+      ]
+    }
+  },
+  "resources": [
+    {
+      "module": "module.web_app",
+      "mode": "data",
+      "type": "azurerm_app_service_plan",
+      "name": "main",
+      "each": "list",
+      "provider": "provider.azurerm",
+      "instances": []
+    },
+    {
+      "module": "module.web_app",
+      "mode": "data",
+      "type": "azurerm_client_config",
+      "name": "main",
+      "provider": "provider.azurerm",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "client_id": "aa26d8f7-f92c-479e-8344-c92780daf269",
+            "id": "2020-04-23 19:33:08.9844792 +0000 UTC",
+            "object_id": "57954d39-d4a4-4e00-a885-d36f3d0075a3",
+            "subscription_id": "ba101d23-80f8-4c69-90f9-8aeba246c6cd",
+            "tenant_id": "a8c1a11d-2857-4106-a0ea-41193d32390c",
+            "timeouts": null
+          }
+        }
+      ]
+    },
+    {
+      "module": "module.web_app",
+      "mode": "data",
+      "type": "azurerm_resource_group",
+      "name": "main",
+      "provider": "provider.azurerm",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/jwilkRg3",
+            "location": "eastus2",
+            "name": "jwilkRg3",
+            "tags": {},
+            "timeouts": null
+          }
+        }
+      ]
+    },
+    {
+      "module": "module.web_app",
+      "mode": "managed",
+      "type": "azurerm_app_service",
+      "name": "main",
+      "provider": "provider.azurerm",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "app_service_plan_id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/jwilkRg3/providers/Microsoft.Web/serverfarms/jwilk-terraform-webapp-plan",
+            "app_settings": {},
+            "auth_settings": [
+              {
+                "active_directory": [],
+                "additional_login_params": {},
+                "allowed_external_redirect_urls": [],
+                "default_provider": "",
+                "enabled": false,
+                "facebook": [],
+                "google": [],
+                "issuer": "",
+                "microsoft": [],
+                "runtime_version": "",
+                "token_refresh_extension_hours": 0,
+                "token_store_enabled": false,
+                "twitter": [],
+                "unauthenticated_client_action": ""
+              }
+            ],
+            "backup": [],
+            "client_affinity_enabled": false,
+            "client_cert_enabled": false,
+            "connection_string": [],
+            "default_site_hostname": "jwilk-terraform-webapp.azurewebsites.net",
+            "enabled": true,
+            "https_only": false,
+            "id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/jwilkRg3/providers/Microsoft.Web/sites/jwilk-terraform-webapp",
+            "identity": [
+              {
+                "identity_ids": [],
+                "principal_id": "d881f585-f21a-4455-b79f-dc39e735fe99",
+                "tenant_id": "a8c1a11d-2857-4106-a0ea-41193d32390c",
+                "type": "SystemAssigned"
+              }
+            ],
+            "location": "eastus2",
+            "logs": [
+              {
+                "application_logs": [
+                  {
+                    "azure_blob_storage": []
+                  }
+                ],
+                "http_logs": [
+                  {
+                    "azure_blob_storage": [],
+                    "file_system": []
+                  }
+                ]
+              }
+            ],
+            "name": "jwilk-terraform-webapp",
+            "outbound_ip_addresses": "40.70.147.11,52.177.23.145,52.184.147.38,52.177.119.222,52.177.22.136",
+            "possible_outbound_ip_addresses": "40.70.147.11,52.177.23.145,52.184.147.38,52.177.119.222,52.177.22.136,104.209.253.237,104.46.96.136,40.70.28.239,52.177.127.186,52.184.147.42",
+            "resource_group_name": "jwilkRg3",
+            "site_config": [
+              {
+                "always_on": false,
+                "app_command_line": "",
+                "auto_swap_slot_name": "",
+                "cors": [
+                  {
+                    "allowed_origins": [],
+                    "support_credentials": false
+                  }
+                ],
+                "default_documents": [],
+                "dotnet_framework_version": "v4.0",
+                "ftps_state": "Disabled",
+                "http2_enabled": true,
+                "ip_restriction": [],
+                "java_container": "",
+                "java_container_version": "",
+                "java_version": "",
+                "linux_fx_version": "DOTNETCORE|2.2",
+                "local_mysql_enabled": false,
+                "managed_pipeline_mode": "Integrated",
+                "min_tls_version": "1.2",
+                "php_version": "",
+                "python_version": "",
+                "remote_debugging_enabled": false,
+                "remote_debugging_version": "VS2019",
+                "scm_type": "None",
+                "use_32_bit_worker_process": true,
+                "websockets_enabled": false,
+                "windows_fx_version": ""
+              }
+            ],
+            "site_credential": [
+              {
+                "password": "CXa0ai8Ylz3uea5Aac2wE4u2E2uov9TFDL5S3n9FHiDtorddGyzb1zwrEGSL",
+                "username": "$jwilk-terraform-webapp"
+              }
+            ],
+            "source_control": [
+              {
+                "branch": "master",
+                "repo_url": ""
+              }
+            ],
+            "storage_account": [],
+            "tags": {},
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjE4MDAwMDAwMDAwMDAsInJlYWQiOjMwMDAwMDAwMDAwMCwidXBkYXRlIjoxODAwMDAwMDAwMDAwfX0=",
+          "dependencies": [
+            "module.web_app.azurerm_app_service_plan.main",
+            "module.web_app.azurerm_key_vault_secret.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.web_app",
+      "mode": "managed",
+      "type": "azurerm_app_service_custom_hostname_binding",
+      "name": "main",
+      "each": "list",
+      "provider": "provider.azurerm",
+      "instances": []
+    },
+    {
+      "module": "module.web_app",
+      "mode": "managed",
+      "type": "azurerm_app_service_plan",
+      "name": "main",
+      "each": "list",
+      "provider": "provider.azurerm",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "app_service_environment_id": "",
+            "id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/jwilkRg3/providers/Microsoft.Web/serverfarms/jwilk-terraform-webapp-plan",
+            "is_xenon": false,
+            "kind": "linux",
+            "location": "eastus2",
+            "maximum_elastic_worker_count": 1,
+            "maximum_number_of_workers": 1,
+            "name": "jwilk-terraform-webapp-plan",
+            "per_site_scaling": false,
+            "reserved": true,
+            "resource_group_name": "jwilkRg3",
+            "sku": [
+              {
+                "capacity": 1,
+                "size": "F1",
+                "tier": "Free"
+              }
+            ],
+            "tags": {},
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozNjAwMDAwMDAwMDAwLCJkZWxldGUiOjM2MDAwMDAwMDAwMDAsInJlYWQiOjMwMDAwMDAwMDAwMCwidXBkYXRlIjozNjAwMDAwMDAwMDAwfX0=",
+          "dependencies": [
+            "azurerm_resource_group.rg1"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.web_app",
+      "mode": "managed",
+      "type": "azurerm_key_vault_access_policy",
+      "name": "main",
+      "each": "list",
+      "provider": "provider.azurerm",
+      "instances": []
+    },
+    {
+      "module": "module.web_app",
+      "mode": "managed",
+      "type": "azurerm_key_vault_secret",
+      "name": "main",
+      "each": "list",
+      "provider": "provider.azurerm",
+      "instances": []
+    },
+    {
+      "module": "module.web_app",
+      "mode": "managed",
+      "type": "azurerm_monitor_autoscale_setting",
+      "name": "main",
+      "each": "list",
+      "provider": "provider.azurerm",
+      "instances": []
+    },
+    {
+      "mode": "managed",
+      "type": "azurerm_network_interface",
+      "name": "dynamicNic",
+      "provider": "provider.azurerm",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "applied_dns_servers": [],
+            "dns_servers": [],
+            "enable_accelerated_networking": false,
+            "enable_ip_forwarding": false,
+            "id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/jwilkRg4/providers/Microsoft.Network/networkInterfaces/testNic",
+            "internal_dns_name_label": "",
+            "ip_configuration": [
+              {
+                "name": "intIp1",
+                "primary": true,
+                "private_ip_address": "10.0.2.5",
+                "private_ip_address_allocation": "Dynamic",
+                "private_ip_address_version": "IPv4",
+                "public_ip_address_id": "",
+                "subnet_id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/jwilkterraform_1/providers/Microsoft.Network/virtualNetworks/sandbox-vnet/subnets/sandbox-subnet"
+              },
+              {
+                "name": "intIp2",
+                "primary": false,
+                "private_ip_address": "10.0.2.6",
+                "private_ip_address_allocation": "Dynamic",
+                "private_ip_address_version": "IPv4",
+                "public_ip_address_id": "",
+                "subnet_id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/jwilkterraform_1/providers/Microsoft.Network/virtualNetworks/sandbox-vnet/subnets/sandbox-subnet"
+              }
+            ],
+            "location": "eastus2",
+            "mac_address": "",
+            "name": "testNic",
+            "private_ip_address": "10.0.2.5",
+            "private_ip_addresses": [
+              "10.0.2.5",
+              "10.0.2.6"
+            ],
+            "resource_group_name": "jwilkRg4",
+            "tags": {},
+            "timeouts": null,
+            "virtual_machine_id": ""
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjE4MDAwMDAwMDAwMDAsInJlYWQiOjMwMDAwMDAwMDAwMCwidXBkYXRlIjoxODAwMDAwMDAwMDAwfX0=",
+          "dependencies": [
+            "azurerm_subnet.subnet"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "azurerm_network_interface",
+      "name": "nics",
+      "each": "map",
+      "provider": "provider.azurerm",
+      "instances": [
+        {
+          "index_key": "nic1",
+          "schema_version": 0,
+          "attributes": {
+            "applied_dns_servers": [],
+            "dns_servers": [],
+            "enable_accelerated_networking": false,
+            "enable_ip_forwarding": false,
+            "id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/jwilkterraform_1/providers/Microsoft.Network/networkInterfaces/nic1",
+            "internal_dns_name_label": "",
+            "ip_configuration": [
+              {
+                "name": "internal",
+                "primary": true,
+                "private_ip_address": "10.0.2.4",
+                "private_ip_address_allocation": "Dynamic",
+                "private_ip_address_version": "IPv4",
+                "public_ip_address_id": "",
+                "subnet_id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/jwilkterraform_1/providers/Microsoft.Network/virtualNetworks/sandbox-vnet/subnets/sandbox-subnet"
+              }
+            ],
+            "location": "eastus2",
+            "mac_address": "",
+            "name": "nic1",
+            "private_ip_address": "10.0.2.4",
+            "private_ip_addresses": [
+              "10.0.2.4"
+            ],
+            "resource_group_name": "jwilkterraform_1",
+            "tags": {},
+            "timeouts": null,
+            "virtual_machine_id": ""
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjE4MDAwMDAwMDAwMDAsInJlYWQiOjMwMDAwMDAwMDAwMCwidXBkYXRlIjoxODAwMDAwMDAwMDAwfX0=",
+          "dependencies": [
+            "azurerm_resource_group.rg",
+            "azurerm_resource_group.rg1",
+            "azurerm_subnet.subnet",
+            "azurerm_virtual_network.vnet"
+          ]
+        },
+        {
+          "index_key": "nic2",
+          "schema_version": 0,
+          "attributes": {
+            "applied_dns_servers": [],
+            "dns_servers": [],
+            "enable_accelerated_networking": false,
+            "enable_ip_forwarding": false,
+            "id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/jwilkRg3/providers/Microsoft.Network/networkInterfaces/nic2",
+            "internal_dns_name_label": "",
+            "ip_configuration": [
+              {
+                "name": "internal",
+                "primary": true,
+                "private_ip_address": "10.0.3.4",
+                "private_ip_address_allocation": "Dynamic",
+                "private_ip_address_version": "IPv4",
+                "public_ip_address_id": "",
+                "subnet_id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/jwilkterraform_1/providers/Microsoft.Network/virtualNetworks/sandbox-vnet/subnets/sandbox-subnet1"
+              }
+            ],
+            "location": "eastus2",
+            "mac_address": "",
+            "name": "nic2",
+            "private_ip_address": "10.0.3.4",
+            "private_ip_addresses": [
+              "10.0.3.4"
+            ],
+            "resource_group_name": "jwilkRg3",
+            "tags": {},
+            "timeouts": null,
+            "virtual_machine_id": ""
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjE4MDAwMDAwMDAwMDAsInJlYWQiOjMwMDAwMDAwMDAwMCwidXBkYXRlIjoxODAwMDAwMDAwMDAwfX0=",
+          "dependencies": [
+            "azurerm_resource_group.rg",
+            "azurerm_resource_group.rg1",
+            "azurerm_subnet.subnet"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "azurerm_resource_group",
+      "name": "rg",
+      "each": "list",
+      "provider": "provider.azurerm",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/jwilkterraform_1",
+            "location": "eastus2",
+            "name": "jwilkterraform_1",
+            "tags": {},
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo1NDAwMDAwMDAwMDAwLCJkZWxldGUiOjU0MDAwMDAwMDAwMDAsInJlYWQiOjMwMDAwMDAwMDAwMCwidXBkYXRlIjo1NDAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": 1,
+          "schema_version": 0,
+          "attributes": {
+            "id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/jwilkterraform_2",
+            "location": "eastus2",
+            "name": "jwilkterraform_2",
+            "tags": {},
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo1NDAwMDAwMDAwMDAwLCJkZWxldGUiOjU0MDAwMDAwMDAwMDAsInJlYWQiOjMwMDAwMDAwMDAwMCwidXBkYXRlIjo1NDAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": 2,
+          "schema_version": 0,
+          "attributes": {
+            "id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/jwilkterraform_3",
+            "location": "eastus2",
+            "name": "jwilkterraform_3",
+            "tags": {},
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo1NDAwMDAwMDAwMDAwLCJkZWxldGUiOjU0MDAwMDAwMDAwMDAsInJlYWQiOjMwMDAwMDAwMDAwMCwidXBkYXRlIjo1NDAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": 3,
+          "schema_version": 0,
+          "attributes": {
+            "id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/jwilkterraform_4",
+            "location": "eastus2",
+            "name": "jwilkterraform_4",
+            "tags": {},
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo1NDAwMDAwMDAwMDAwLCJkZWxldGUiOjU0MDAwMDAwMDAwMDAsInJlYWQiOjMwMDAwMDAwMDAwMCwidXBkYXRlIjo1NDAwMDAwMDAwMDAwfX0="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "azurerm_resource_group",
+      "name": "rg1",
+      "each": "map",
+      "provider": "provider.azurerm",
+      "instances": [
+        {
+          "index_key": "jwilkRg",
+          "schema_version": 0,
+          "attributes": {
+            "id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/jwilkRg",
+            "location": "eastus2",
+            "name": "jwilkRg",
+            "tags": {},
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo1NDAwMDAwMDAwMDAwLCJkZWxldGUiOjU0MDAwMDAwMDAwMDAsInJlYWQiOjMwMDAwMDAwMDAwMCwidXBkYXRlIjo1NDAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": "jwilkRg1",
+          "schema_version": 0,
+          "attributes": {
+            "id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/jwilkRg1",
+            "location": "eastus2",
+            "name": "jwilkRg1",
+            "tags": {},
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo1NDAwMDAwMDAwMDAwLCJkZWxldGUiOjU0MDAwMDAwMDAwMDAsInJlYWQiOjMwMDAwMDAwMDAwMCwidXBkYXRlIjo1NDAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": "jwilkRg2",
+          "schema_version": 0,
+          "attributes": {
+            "id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/jwilkRg2",
+            "location": "westus",
+            "name": "jwilkRg2",
+            "tags": {},
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo1NDAwMDAwMDAwMDAwLCJkZWxldGUiOjU0MDAwMDAwMDAwMDAsInJlYWQiOjMwMDAwMDAwMDAwMCwidXBkYXRlIjo1NDAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": "jwilkRg3",
+          "schema_version": 0,
+          "attributes": {
+            "id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/jwilkRg3",
+            "location": "eastus2",
+            "name": "jwilkRg3",
+            "tags": {},
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo1NDAwMDAwMDAwMDAwLCJkZWxldGUiOjU0MDAwMDAwMDAwMDAsInJlYWQiOjMwMDAwMDAwMDAwMCwidXBkYXRlIjo1NDAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": "jwilkRg4",
+          "schema_version": 0,
+          "attributes": {
+            "id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/jwilkRg4",
+            "location": "eastus2",
+            "name": "jwilkRg4",
+            "tags": {},
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo1NDAwMDAwMDAwMDAwLCJkZWxldGUiOjU0MDAwMDAwMDAwMDAsInJlYWQiOjMwMDAwMDAwMDAwMCwidXBkYXRlIjo1NDAwMDAwMDAwMDAwfX0="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "azurerm_subnet",
+      "name": "subnet",
+      "each": "map",
+      "provider": "provider.azurerm",
+      "instances": [
+        {
+          "index_key": "sandbox-subnet",
+          "schema_version": 0,
+          "attributes": {
+            "address_prefix": "10.0.2.0/24",
+            "delegation": [],
+            "enforce_private_link_endpoint_network_policies": false,
+            "enforce_private_link_service_network_policies": false,
+            "id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/jwilkterraform_1/providers/Microsoft.Network/virtualNetworks/sandbox-vnet/subnets/sandbox-subnet",
+            "name": "sandbox-subnet",
+            "resource_group_name": "jwilkterraform_1",
+            "service_endpoints": [],
+            "timeouts": null,
+            "virtual_network_name": "sandbox-vnet"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjE4MDAwMDAwMDAwMDAsInJlYWQiOjMwMDAwMDAwMDAwMCwidXBkYXRlIjoxODAwMDAwMDAwMDAwfX0=",
+          "dependencies": [
+            "azurerm_resource_group.rg",
+            "azurerm_virtual_network.vnet"
+          ]
+        },
+        {
+          "index_key": "sandbox-subnet1",
+          "schema_version": 0,
+          "attributes": {
+            "address_prefix": "10.0.3.0/24",
+            "delegation": [],
+            "enforce_private_link_endpoint_network_policies": false,
+            "enforce_private_link_service_network_policies": false,
+            "id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/jwilkterraform_1/providers/Microsoft.Network/virtualNetworks/sandbox-vnet/subnets/sandbox-subnet1",
+            "name": "sandbox-subnet1",
+            "resource_group_name": "jwilkterraform_1",
+            "service_endpoints": [],
+            "timeouts": null,
+            "virtual_network_name": "sandbox-vnet"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjE4MDAwMDAwMDAwMDAsInJlYWQiOjMwMDAwMDAwMDAwMCwidXBkYXRlIjoxODAwMDAwMDAwMDAwfX0=",
+          "dependencies": [
+            "azurerm_resource_group.rg",
+            "azurerm_virtual_network.vnet"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "azurerm_virtual_network",
+      "name": "vnet",
+      "provider": "provider.azurerm",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "address_space": [
+              "10.0.0.0/16"
+            ],
+            "ddos_protection_plan": [],
+            "dns_servers": [],
+            "id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/jwilkterraform_1/providers/Microsoft.Network/virtualNetworks/sandbox-vnet",
+            "location": "eastus2",
+            "name": "sandbox-vnet",
+            "resource_group_name": "jwilkterraform_1",
+            "subnet": [
+              {
+                "address_prefix": "10.0.2.0/24",
+                "id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/jwilkterraform_1/providers/Microsoft.Network/virtualNetworks/sandbox-vnet/subnets/sandbox-subnet",
+                "name": "sandbox-subnet",
+                "security_group": ""
+              },
+              {
+                "address_prefix": "10.0.3.0/24",
+                "id": "/subscriptions/ba101d23-80f8-4c69-90f9-8aeba246c6cd/resourceGroups/jwilkterraform_1/providers/Microsoft.Network/virtualNetworks/sandbox-vnet/subnets/sandbox-subnet1",
+                "name": "sandbox-subnet1",
+                "security_group": ""
+              }
+            ],
+            "tags": {},
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjE4MDAwMDAwMDAwMDAsInJlYWQiOjMwMDAwMDAwMDAwMCwidXBkYXRlIjoxODAwMDAwMDAwMDAwfX0=",
+          "dependencies": [
+            "azurerm_resource_group.rg"
+          ]
+        }
+      ]
+    }
+  ]
+}
