@@ -6,7 +6,7 @@ tenant_id       = "a8c1a11d-2857-4106-a0ea-41193d32390c"
 
 appVars = {
   name: "jwilkterraform"
-  servers: 4
+  count: 4
 }
 
 

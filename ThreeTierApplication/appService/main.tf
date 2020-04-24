@@ -71,7 +71,7 @@ locals {
 
 
 resource "azurerm_resource_group" "rg" {
-  count    = var.appVars.servers
+  count    = var.appVars.count
   name     = "${var.appVars.name}_${count.index + 1}"
   location = var.location
 }
