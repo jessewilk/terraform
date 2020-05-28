@@ -1,14 +1,5 @@
 terraform {
-  /*backend "local" {
-    path = "./ThreeTier-appService.json"
-  }
-  backend "azurerm" {
-    resource_group_name  = "core-networking"
-    storage_account_name = "jwilkincsa"
-    container_name       = "terraform-state"
-    key                  = "ThreeTier-appService.tfstate"
-  }
-  */
+#Terraform Cloud Backend
   backend "remote" {
     hostname     = "app.terraform.io"
     organization = "cardinalsolutions"
