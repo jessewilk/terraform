@@ -1,0 +1,12 @@
+## Runs lunix commands to output the env vars and file list to the log.
+
+steps:
+- script: printenv | sort
+  displayName: 'Show all environment variables'
+  condition: always()
+
+# the path regex tells it to omit folders that start with '.'
+- script: find . -not -path '*/\.*'
+  displayName: 'List All Files'
+  workingDirectory: '$(System.DefaultWorkingDirectory)'
+  condition: always()

@@ -1,0 +1,8 @@
+rg_name = "YourRGName"
+
+app_plan_name            = "AppPlanName"
+app_service_name         = "AppServiceName"
+dotnet_framework_version = "v4.0"
+app_plan_tier            = "Basic"
+app_plan_size            = "B1"
+app_plan_kind            = "Windows"

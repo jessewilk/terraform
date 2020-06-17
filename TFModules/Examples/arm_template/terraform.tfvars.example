@@ -1,0 +1,3 @@
+rg_name        = "Your RG Name"
+ddos_plan_name = "Your plan name"
+ddos_location  = "centralus"

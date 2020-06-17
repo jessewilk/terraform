@@ -1,0 +1,25 @@
+# Common
+rg_name          = "myrgname"
+environment      = "demo"
+product_code     = "demo"
+geo_code         = "ussc"
+component_devops = "devops"
+
+# Networking
+vnet_address_space    = ["10.0.0.0/27"]
+subnet_name           = "snet-devops"
+subnet_address_prefix = "10.0.0.1/24"
+service_endpoints     = ["Microsoft.AzureActiveDirectory", "Microsoft.KeyVault", "Microsoft.Storage"]
+
+# Keyvault
+devops_spn_name     = "MySPN"
+admin_objectid_list = ["objectid1", "objectid2"]
+
+# Storage Acct
+container_name = "tfstate"
+storage_tier = "Standard"
+storage_repl_type = "LRS"
+storage_net_default_action = "Deny"
+
+# App Config
+app_config_sku = "free"

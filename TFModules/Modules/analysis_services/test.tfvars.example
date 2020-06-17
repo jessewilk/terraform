@@ -1,0 +1,6 @@
+rg_name                 = "yourRGName"
+analysis_location       = "southcentralus"
+analysis_name           = "demoanalysis48484"
+analysis_sas_uri        = "xxxx"
+analysis_fw_range_start = "210.117.252.0"
+analysis_fw_range_end   = "210.117.252.255"

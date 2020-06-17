@@ -1,0 +1,14 @@
+rg_name      = "YourRGName"
+apim_name     = "YourApimName"
+
+api_name         = "demoapi"
+api_revision     = "1"
+api_display_name = "Demo API"
+api_path         = "demo"
+
+content_format = "swagger-link-json"
+content_value  = "http://conferenceapi.azurewebsites.net/?format=json"
+
+subscr_key_header = "Ocp-Apim-Subscription-Key"
+subscr_key_query  = "subscription-key"
+

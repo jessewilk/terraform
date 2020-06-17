@@ -1,0 +1,98 @@
+
+# Build Number Format
+name: '$(build.definitionName).$(build.sourceBranchName).$(date:yyyyMMdd).$(build.buildId)'
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+- name: appServicesPath
+  value: 'Workspaces/AppServices'
+- name: modulePath
+  value: '$(System.DefaultWorkingDirectory)/Modules'
+- name: scriptPath
+  value: '$(System.DefaultWorkingDirectory)/Scripts'
+- name: planPath
+  value: '$(Build.ArtifactStagingDirectory)/terraformout'
+- group: 'Terraform.Backend.Dev.Settings'
+- group: 'IaC.Demo.Dev.Settings'
+- group: 'IaC.ResourceGroup.Dev.Settings'
+- group: 'Dev.Settings'
+
+stages:
+- stage: eReserveAllValidation
+  displayName: Validate eReserve Terraform Templates
+
+  variables:
+    workspaceName: 'eReserveAll'
+    terraPath: '$(System.DefaultWorkingDirectory)/Workspaces/$(workspaceName)'
+    tfvarsFile: 'devops.tfvars'
+
+  jobs:
+  - job: Validate
+    displayName: Validate Terraform
+
+    steps:
+    - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+      inputs:
+        rootDirectory: '$(terraPath)'
+        targetFiles: '$(tfvarsFile)'
+        encoding: 'auto'
+        writeBOM: true
+        actionOnMissing: 'fail'
+        keepToken: false
+        tokenPrefix: '__'
+        tokenSuffix: '__'
+    - task: CmdLine@2
+      displayName: Log contents of tfvars file.
+      inputs:
+        script: 'cat $(tfvarsFile)'
+        workingDirectory: '$(terraPath)'
+
+## Use pipeline template to validate templates.
+    - template: Templates/terraform-validate-plan.yml
+      parameters:
+        templatePath: $(terraPath)
+        tfvarsFile: $(tfvarsFile)
+
+- stage: CopyAndPublish
+  displayName: Copy and Publish Files
+  dependsOn:
+  - eReserveAllValidation
+
+  jobs:
+  - job: Publish
+    displayName: Copy and Publish Files
+
+    steps:
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(Build.SourcesDirectory)'
+        Contents: |
+          **
+          !.git/**
+          !.gitignore
+          !Examples/**
+          !Pipelines/**
+          !README.md
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Build Artifacts'
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+
+- stage: LoggingTasks
+  displayName: Logging Tasks
+
+  jobs:
+  - job: Logging
+    displayName: Logging Tasks
+
+    steps:
+    - template: Templates/logging-tasks.yml

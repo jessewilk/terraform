@@ -1,0 +1,6 @@
+rg_name              = "Your RG Name"
+
+## Storage settings
+sql_server_name = "demosql1132a"
+sql_admin_login = "demoadmin"
+sql_db_list     = ["sqldb-demo1", "sqldb-demo2"]

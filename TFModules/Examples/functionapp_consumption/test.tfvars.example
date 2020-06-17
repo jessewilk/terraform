@@ -1,0 +1,12 @@
+rg_name              = "Your RG Name"
+apim_location        = "southcentralus"
+apim_name            = "APIM Name Here"
+apim_publisher_name  = "Publisher Name Here"
+apim_publisher_email = "Publisher email here"
+apim_sku_name        = "Developer_1"
+
+apimlog_name         = "Logger Name Here"
+
+appinsights_name     = "App Insights Name Here"
+appinsights_location = "southcentralus"
+appinsights_app_type = "web"

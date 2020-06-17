@@ -1,0 +1,9 @@
+rg_name        = "Your RG Name"
+nsg_name       = "Your nsg name"
+vnet_name      = "Your vnet name"
+vnet_location  = "centralus"
+subnet_name    = "subnet1"
+
+## DDOS Plan must already exist
+ddos_plan_name = "Your DDOS Plan Name"
+ddos_rg_name = "DDOS Resource Group Name"
